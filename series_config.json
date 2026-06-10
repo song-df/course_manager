@@ -1,0 +1,199 @@
+{
+  "series": [
+    {
+      "id": "zero-to-ai",
+      "title": "从零基础到AI专家",
+      "subtitle": "数学基础 → Python编程 → 深度学习 → 计算机视觉 → 生成对抗网络 → 工程部署",
+      "description": "4门课程、312个视频的系统学习路径。从线性代数与概率论起步，掌握Python程序设计，深入CNN、RNN、ResNet、LSTM等核心网络结构，实战目标检测与语义分割，探索GAN与增强学习前沿，最终覆盖分布式训练、Docker与Kubernetes部署。",
+      "icon": "🧠",
+      "banner": "b1",
+      "courses": ["ai-foundations", "advanced-ai", "math-python", "cv-nlp"]
+    },
+    {
+      "id": "chuanshuo",
+      "title": "船说系列课程",
+      "subtitle": "C语言、Linux、算法、C++服务器开发全栈体系",
+      "description": "从C语言零基础到Linux系统编程，再到高性能C++服务器开发，系统完整的计算机学习路径。",
+      "icon": "⛵",
+      "banner": "b4",
+      "courses": [
+        "船说系列课程-C-零基础到高级",
+        "船说系列课程-C语言全能实战",
+        "船说系列课程-Linux环境搭建与云主机",
+        "船说系列课程-Linux-系统编程实战",
+        "船说系列课程-计算机基础",
+        "船说系列课程-计算机基础考研特别版",
+        "船说系列课程-算法与数据结构",
+        "船说系列课程-算法周周练",
+        "船说系列课程-算法竞赛通关班",
+        "船说系列课程-网络编程实战",
+        "船说系列课程-船说-Linux网络编程实战",
+        "船说系列课程-从0到1-开发C-高性能服务器",
+        "船说系列课程-船说-从0到1开发C-服务器-精简版",
+        "船说系列课程-从0到1快速入门AI大模型",
+        "船说系列课程-学业规划",
+        "船说系列课程-原始视频",
+        "船说系列课程-船说系列片头"
+      ]
+    },
+    {
+      "id": "java-ee",
+      "title": "Java企业级架构",
+      "subtitle": "JavaEE、分布式架构师、Spring生态",
+      "description": "涵盖Java核心、JavaEE企业级分布式架构师多期课程、商业项目架构就业班、JVM进阶等，从入门到高级架构师完整体系。",
+      "icon": "☕",
+      "banner": "b2",
+      "courses": [
+        "data-java",
+        "data-javaee企业级分布式高级架构师014期",
+        "data-javaee企业级分布式高级架构师020期",
+        "data-javaee商业项目架构就业班",
+        "data-java企业级分布式架构师021期",
+        "data-java企业级分布式高级架构师017期",
+        "data-程序员jvm进阶课",
+        "temp_med-210157",
+        "temp_med-211944",
+        "temp_med-213704",
+        "temp_med-214186",
+        "temp_med-214411"
+      ]
+    },
+    {
+      "id": "python",
+      "title": "Python与爬虫",
+      "subtitle": "Python编程、数据抓取、人工智能",
+      "description": "Python数据抓取训练营、人工智能Python能力培养，以及企业Python训练营实战课程。",
+      "icon": "🐍",
+      "banner": "b3",
+      "courses": [
+        "data-python数据抓取训练营",
+        "data-人工智能python能力培养",
+        "temp_med-210752",
+        "temp_med-211612",
+        "temp_med-212216",
+        "temp_med-212454"
+      ]
+    },
+    {
+      "id": "web-frontend",
+      "title": "Web前端与全栈",
+      "subtitle": "JavaScript、Vue/React、Web全栈、前端工程化",
+      "description": "涵盖JavaScript高级工程师、Web前端高级工程师、Web全栈架构师多期课程，以及前端工程化、视觉设计等。",
+      "icon": "🌐",
+      "banner": "b1",
+      "courses": [
+        "data-javascript高级工程师002期",
+        "data-web",
+        "data-web全栈架构师016期",
+        "data-web全栈架构师019期",
+        "data-web前端高级工程师017期",
+        "data-视觉电商设计0425",
+        "temp_med-212074",
+        "temp_med-219850"
+      ]
+    },
+    {
+      "id": "ai-ml",
+      "title": "AI与机器学习",
+      "subtitle": "深度学习、NLP、计算机视觉、AI大赛",
+      "description": "百度飞桨联合设计AI实战工程师系列、自然语言处理、计算机视觉、量化投资、AI大赛实战等前沿课程。",
+      "icon": "🤖",
+      "banner": "b4",
+      "courses": [
+        "data-ai与量化投资人才培养计划",
+        "data-ai商业思维",
+        "data-微软下一代人工智能",
+        "data-百度飞桨联合设计双证资深ai实战工程师",
+        "data-百度飞桨联合设计资深ai实战工程师",
+        "data-百度飞桨联合设计资深ai实战工程师cv方向",
+        "data-百度飞桨联合设计资深ai实战工程师cv方向录播",
+        "data-百度飞桨联合设计资深ai实战工程师nlp方向录播",
+        "data-第三期百度资深ai实战工程师cv方向",
+        "data-自然语言处理与文本检索算法工程师",
+        "data-计算机视觉与图像处理算法工程师010期",
+        "data-阿里云mvp带你挑战ai大赛",
+        "temp_med-211093"
+      ]
+    },
+    {
+      "id": "data-science",
+      "title": "数据科学与分析",
+      "subtitle": "数据分析、数据挖掘、商业分析、可视化",
+      "description": "商业数据分析核心能力实战、数据分析训练营、数据挖掘、数据可视化、Power BI等数据科学全流程课程。",
+      "icon": "📊",
+      "banner": "b2",
+      "courses": [
+        "data-商业数据分析核心能力实战",
+        "data-安踏数据分析训练营",
+        "data-数据分析训练营",
+        "data-数据分析高薪培养计划精英班",
+        "data-数据可视化能力提升计划003期",
+        "data-数据挖掘",
+        "data-数据挖掘与高级商业分析算法工程师",
+        "data-数据挖掘工程师实战003期",
+        "data-资金流入流出预测",
+        "temp_med-211240",
+        "temp_med-212696"
+      ]
+    },
+    {
+      "id": "bigdata-arch",
+      "title": "大数据与架构",
+      "subtitle": "Flink、大数据架构、百万架构师",
+      "description": "Flink实时数仓精讲、大数据架构项目源码实战、百万架构师培养计划等高级技术课程。",
+      "icon": "🏗️",
+      "banner": "b3",
+      "courses": [
+        "data-flink实时数仓精讲及实战",
+        "data-大数据架构项目源码实战营",
+        "data-百万架构师010期",
+        "data-百万架构师011期",
+        "data-门徒计划v2",
+        "data-新职课"
+      ]
+    },
+    {
+      "id": "algo-interview",
+      "title": "算法与面试",
+      "subtitle": "算法精讲、面试笔试、编程规范",
+      "description": "面试笔试算法上下篇、31天代码规范训练、编程核心能力提升课程。",
+      "icon": "📝",
+      "banner": "b1",
+      "courses": [
+        "data-31天孤尽代码规范与效能提升训练营",
+        "data-面试笔试算法",
+        "data-面试笔试算法下"
+      ]
+    },
+    {
+      "id": "career-general",
+      "title": "职业素养与通识",
+      "subtitle": "职业规划、考研、营销、财商、办公技能",
+      "description": "互联网营销师、职业精英特训、考研公共课、财商系列、Excel实战、GitHub学习等综合素质课程。",
+      "icon": "🎯",
+      "banner": "b4",
+      "courses": [
+        "data-互联网营销师",
+        "data-职业整理师技能班",
+        "data-职业精英实战特训营",
+        "data-职业能力倾向测验",
+        "data-职场情商特训营",
+        "data-财商系列课",
+        "data-统计基础",
+        "data-学习github",
+        "data-excel14天实战速成班",
+        "data-贵州大学23年考研公共课高分班",
+        "data-贵州理工学院23年考研公共课高分班",
+        "data-孙志岗带你重做开课吧课程中台系统",
+        "data-安踏集团",
+        "data-数字化就业班",
+        "data-pbl产品",
+        "data-核心12期",
+        "data-核心6期",
+        "data-课程录制",
+        "data-直播私教",
+        "data-3"
+      ]
+    }
+  ]
+}

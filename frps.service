@@ -1,0 +1,17 @@
+# frps.service — systemd 服务文件 (部署到云主机 /etc/systemd/system/frps.service)
+
+[Unit]
+Description=frp Server
+After=network.target
+
+[Service]
+Type=simple
+User=nobody
+Restart=on-failure
+RestartSec=5s
+ExecStart=/usr/local/bin/frps -c /etc/frp/frps.toml
+ExecReload=/bin/kill -HUP $MAINPID
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

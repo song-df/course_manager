@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智联学习云 - 系列课程</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --primary:#4f46e5;--primary-light:#818cf8;--primary-dark:#3730a3;
+    --accent:#f59e0b;--success:#22c55e;
+    --bg:#0f172a;--bg2:#1e293b;--bg3:#334155;--hover:#475569;
+    --text:#f1f5f9;--text2:#94a3b8;--text3:#64748b;
+    --radius:12px;--shadow:0 4px 20px rgba(0,0,0,.4);
+    --border:#334155;
+  }
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+  a{color:var(--primary-light);text-decoration:none}
+
+  /* Nav */
+  .topnav{
+    background:linear-gradient(135deg,var(--primary-dark),var(--primary));
+    padding:0 32px;height:56px;display:flex;align-items:center;
+    justify-content:space-between;box-shadow:0 2px 12px rgba(79,70,229,.3);
+    position:sticky;top:0;z-index:200;
+  }
+  .topnav .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px}
+  .topnav .brand a{color:inherit;text-decoration:none;margin-right:4px;font-size:16px}
+  .topnav .brand span{color:var(--accent)}
+  .topnav .brand small{font-weight:400;font-size:13px;color:#c7d2fe}
+  .topnav .info{font-size:13px;color:#c7d2fe;display:flex;gap:16px}
+  .topnav .info b{color:#fff}
+
+  /* Series Header */
+  .series-header{
+    background:linear-gradient(135deg,#1a1a2e,#16213e);
+    padding:40px 32px 36px;text-align:center;border-bottom:1px solid var(--border);
+  }
+  .series-header .icon{font-size:48px;margin-bottom:8px}
+  .series-header h1{font-size:28px;font-weight:800;margin-bottom:6px}
+  .series-header .sub{font-size:15px;color:var(--accent);margin-bottom:10px}
+  .series-header .desc{font-size:14px;color:var(--text2);max-width:600px;margin:0 auto;line-height:1.7}
+  .series-header .meta{display:flex;justify-content:center;gap:28px;margin-top:16px;font-size:13px;color:var(--text3)}
+  .series-header .meta span{display:flex;align-items:center;gap:4px}
+
+  /* Container */
+  .container{max-width:1200px;margin:0 auto;padding:32px 24px 80px}
+  .section-title{font-size:20px;font-weight:700;margin-bottom:20px}
+
+  /* Course Cards Grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
+
+  .card{
+    background:var(--bg2);border:1px solid var(--border);
+    border-radius:var(--radius);overflow:hidden;cursor:pointer;
+    transition:all .25s;display:flex;flex-direction:column;
+  }
+  .card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 8px 30px rgba(79,70,229,.25);
+    border-color:var(--primary-light);
+  }
+  .card-banner{
+    height:130px;display:flex;align-items:center;justify-content:center;
+    font-size:48px;position:relative;
+  }
+  .card-banner.b1{background:linear-gradient(135deg,#1e3a5f,#2563eb)}
+  .card-banner.b2{background:linear-gradient(135deg,#1a3d2f,#059669)}
+  .card-banner.b3{background:linear-gradient(135deg,#3b1f5e,#7c3aed)}
+  .card-banner.b4{background:linear-gradient(135deg,#5f1a2e,#e11d48)}
+  .card-banner .tag{
+    position:absolute;top:10px;right:10px;
+    background:rgba(0,0,0,.4);padding:3px 10px;border-radius:20px;
+    font-size:11px;color:#fff;
+  }
+  .card-body{padding:18px 20px;flex:1;display:flex;flex-direction:column}
+  .card-body h3{font-size:16px;font-weight:700;margin-bottom:3px;line-height:1.3}
+  .card-body .sub{font-size:12px;color:var(--accent);margin-bottom:8px}
+  .card-body .desc{font-size:13px;color:var(--text2);line-height:1.6;flex:1;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  }
+  .card-footer{
+    display:flex;gap:16px;padding:14px 20px;border-top:1px solid var(--border);
+    font-size:12px;color:var(--text3);
+  }
+  .card-footer span{display:flex;align-items:center;gap:4px}
+
+  .footer{text-align:center;padding:24px;color:var(--text3);font-size:12px;border-top:1px solid var(--border)}
+
+  @media(max-width:768px){
+    .topnav{padding:0 16px}.topnav .brand small{display:none}
+    .series-header{padding:32px 20px 28px}.series-header h1{font-size:22px}
+    .grid{grid-template-columns:1fr}.container{padding:24px 16px 60px}
+  }
+
+  .spinner{display:flex;justify-content:center;padding:60px}
+  .spinner::after{content:"";width:36px;height:36px;border:3px solid var(--bg3);border-top-color:var(--primary-light);border-radius:50%;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(1turn)}}
+  .error-msg{text-align:center;padding:60px;color:#f87171}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="brand">
+    <a href="/" title="返回首页">←</a>
+    <span>智联学习云</span>
+    <small id="navBreadcrumb">· 系列课程</small>
+  </div>
+  <div class="info">
+    <span id="navUser"></span>
+    <span>📚 <b id="navCourses">-</b> 门课程</span>
+    <span>📹 <b id="navVideos">-</b> 个视频</span>
+  </div>
+</nav>
+
+<div id="seriesHeader"></div>
+
+<div class="container">
+  <div class="section-title">📋 系列课程</div>
+  <div class="grid" id="courseGrid">
+    <div class="spinner"></div>
+  </div>
+</div>
+
+<footer class="footer">智联学习云 © 2026 · 学无止境<br><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener" style="color:var(--text3);text-decoration:none;font-size:11px">浙ICP备2022030063号-1</a></footer>
+
+<script src="auth.js"></script>
+<script>
+const icons  = ['🧠','🚀','📐','👁️'];
+const banners = ['b1','b2','b3','b4'];
+
+document.addEventListener('DOMContentLoaded', () => {
+  Auth.renderUserArea('navUser');
+  loadSeries();
+});
+
+async function loadSeries() {
+  const params  = new URLSearchParams(window.location.search);
+  const seriesId = params.get('id');
+  if (!seriesId) {
+    document.getElementById('courseGrid').innerHTML =
+      `<div class="error-msg">❌ 缺少系列 ID 参数</div>`;
+    return;
+  }
+  try {
+    const res = await fetch(`/api/series?id=${seriesId}`);
+    const series = await res.json();
+    if (series.error) throw new Error(series.error);
+    document.title = `${series.title} - 智联学习云`;
+    renderHeader(series);
+    renderCards(series.courses, seriesId, series.title);
+  } catch(e) {
+    document.getElementById('courseGrid').innerHTML =
+      `<div class="error-msg">❌ 加载失败<br><small>${e.message}</small></div>`;
+  }
+}
+
+function renderHeader(series) {
+  document.getElementById('seriesHeader').innerHTML = `
+    <div class="series-header">
+      <div class="icon">${series.icon || '📚'}</div>
+      <h1>${series.title}</h1>
+      <div class="sub">${series.subtitle}</div>
+      <div class="desc">${series.description}</div>
+      <div class="meta">
+        <span>📂 ${series.courses.length} 门课程</span>
+        <span>📹 ${series.courses.reduce((s,c)=>s+c.total_videos,0)} 个视频</span>
+        <span>📋 ${series.courses.reduce((s,c)=>s+c.chapters.length,0)} 个章节</span>
+      </div>
+    </div>`;
+  document.getElementById('navBreadcrumb').textContent = `· ${series.title}`;
+  document.getElementById('navCourses').textContent = series.courses.length;
+  document.getElementById('navVideos').textContent = series.courses.reduce((s,c) => s + c.total_videos, 0);
+}
+
+function renderCards(courses, seriesId, seriesTitle) {
+  let html = '';
+  courses.forEach((c, i) => {
+    html += `
+    <div class="card" onclick="location.href='course.html?id=${c.id}&series=${seriesId}'">
+      <div class="card-banner ${banners[i % banners.length]}">
+        <span style="font-size:48px">${icons[i % icons.length]}</span>
+        <span class="tag">${c.total_videos} 讲</span>
+      </div>
+      <div class="card-body">
+        <h3>${c.title}</h3>
+        <div class="sub">${c.subtitle}</div>
+        <div class="desc">${c.description}</div>
+      </div>
+      <div class="card-footer">
+        <span>📂 ${c.chapters.length} 个章节</span>
+        <span>📹 ${c.total_videos} 个视频</span>
+      </div>
+    </div>`;
+  });
+  document.getElementById('courseGrid').innerHTML = html;
+}
+</script>
+</body>
+</html>

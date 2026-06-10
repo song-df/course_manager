@@ -1,0 +1,28 @@
+# Data files (large)
+course_data.json
+course_data.backup.json
+hash_name_map.json
+*.db
+
+# Generated frames
+frames/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Screenshots
+*.png
+*.jpg
+
+# Sensitive
+frpc.toml
+frps.toml
+ssh_conn.sh
+ssh_script.sh
+deploy_cloud.sh
+upload_and_deploy.sh
+
+# Temp
+index_new.html
+/tmp/

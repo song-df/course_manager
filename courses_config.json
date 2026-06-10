@@ -1,0 +1,87 @@
+{
+  "base_dir": "E:\\kkb-course",
+
+  "courses": [
+    {
+      "id": "ai-foundations",
+      "title": "人工智能基础 AI Foundations",
+      "subtitle": "从零开始的AI入门之旅",
+      "description": "本课程从数学基础出发，系统讲解Python编程、人工智能核心概念，再到深度学习前沿技术（CNN、RNN、GAN、目标检测、语义分割等），配备丰富的习题课和专题讲解，是AI入门的完整学习路径。",
+      "source": "29门课资料\\AI Foundations",
+      "chapters": [
+        {"folder": "第1章", "title": "人工智能数学基础", "description": "向量、矩阵、线性代数、概率论、数理统计、优化方法"},
+        {"folder": "第2章", "title": "Python程序设计", "description": "语言概述、变量类型、数据结构、语法、函数、类、文件系统、第三方库"},
+        {"folder": "第3章", "title": "人工智能概述", "description": "AI起源与发展、驱动因素、关键技术、真实案例"},
+        {"folder": "第4章", "title": "机器学习与数据预处理", "description": "数据获取与清洗、编码、可视化、模型优化、正则化"},
+        {"folder": "第5章", "title": "深度学习", "description": "深度神经网络、CNN、ResNet、目标检测、语义分割、RNN、注意力机制、GAN、增强学习"},
+        {"folder": "课程总结", "title": "课程总结", "description": "数学基础总结、Python编程总结、机器学习总结、深度学习总结"},
+        {"folder": "7", "title": "补充专题", "description": "线性代数专题、概率论专题（习题详解视频）"}
+      ]
+    },
+
+    {
+      "id": "advanced-ai",
+      "title": "高级深度学习 Advanced Deep Learning",
+      "subtitle": "深入深度学习核心技术与工程实践",
+      "description": "本课程在AI基础之上深入讲解深度学习的核心理论与工程实践，涵盖DenseNet、高级CNN与RNN、分布式深度学习系统、AlphaGo、GAN变体、Kubernetes等前沿内容，并包含数字病理影像、ImageNet实战等大型项目。",
+      "source": "29门课资料\\Advanced AI",
+      "chapters": [
+        {"folder": "第0章", "title": "绪论", "description": "课程导引与概述"},
+        {"folder": "第1章", "title": "神经网络深入", "description": "DenseNet、高级神经网络结构"},
+        {"folder": "第2章", "title": "卷积神经网络I", "description": "CNN进阶理论与应用"},
+        {"folder": "第3章", "title": "卷积神经网络II", "description": "语义分割、目标检测进阶"},
+        {"folder": "第4章", "title": "高级循环神经网络", "description": "LSTM、GRU、注意力机制"},
+        {"folder": "第5章", "title": "分布式深度学习系统", "description": "分布式系统、Kafka、微服务、TensorFlow Serving、Docker"},
+        {"folder": "第6章", "title": "深度学习前沿", "description": "深度增强学习、Flappy Bird实战、AlphaGo、GAN、ConditionalGAN、CycleGAN"},
+        {"folder": "第7章", "title": "核心实战", "description": "ImageNet、MNIST、猫狗大战数据集、模型训练与测试、性能指标"},
+        {"folder": "第8章", "title": "数字病理影像实战", "description": "数字病理切片、DeepLabv3+、论文串烧"},
+        {"folder": "第9章", "title": "系统架构与Kubernetes", "description": "系统架构设计、Celery、Docker镜像、Kubernetes实战"},
+        {"folder": "课程总结", "title": "课程总结", "description": "深度学习理论总结、CNN总结、RNN总结、系统与前沿总结"}
+      ]
+    },
+
+    {
+      "id": "math-python",
+      "title": "AI数学与Python基础强化",
+      "subtitle": "打好AI必备的数学与编程基础",
+      "description": "从AI Foundations中提取数学基础和Python编程两大模块，整合为独立的强化课程。适合需要夯实AI数学（线性代数、概率论、数理统计、优化方法）和Python编程（基础语法、面向对象、高级编程）的学习者。",
+      "source": "29门课资料\\AI Foundations",
+      "chapters": [
+        {"folder": "1", "title": "数学基础：线性代数", "description": "向量、矩阵、空间与子空间、矩阵分解与降维、矩阵的秩、线性方程组"},
+        {"folder": "2", "title": "Python编程基础", "description": "Python语言概述、变量类型、数据结构、语法结构、函数、类与继承"},
+        {"folder": "7", "title": "数学与编程专题补充", "description": "线性代数专题、概率论专题（习题详解）"}
+      ]
+    },
+
+    {
+      "id": "cv-nlp",
+      "title": "计算机视觉与深度学习实战",
+      "subtitle": "从CNN到GAN，从目标检测到生成模型的完整视觉课程",
+      "description": "综合AI Foundations和Advanced AI中的视觉相关章节，打造完整的计算机视觉学习路径。涵盖CNN基础、ResNet、目标检测、语义分割、生成对抗网络及其实战（SimpleGAN、ConditionalGAN、CycleGAN），以及数字病理影像等真实项目。",
+      "chapters": [
+        {"source": "29门课资料\\AI Foundations", "folder": "第5章", "title": "深度学习与计算机视觉基础", "description": "深度神经网络、CNN概述、卷积层、网络结构、ResNet、目标检测、语义分割"},
+        {"source": "29门课资料\\Advanced AI",    "folder": "第2章", "title": "卷积神经网络I进阶", "description": "高级CNN结构与应用"},
+        {"source": "29门课资料\\Advanced AI",    "folder": "第3章", "title": "卷积神经网络II进阶", "description": "语义分割与目标检测进阶"},
+        {"source": "29门课资料\\Advanced AI",    "folder": "第6章", "title": "生成对抗网络与增强学习", "description": "深度增强学习、Flappy Bird实战、AlphaGo、GAN、SimpleGAN、ConditionalGAN、CycleGAN"},
+        {"source": "29门课资料\\Advanced AI",    "folder": "第8章", "title": "数字病理影像实战项目", "description": "病理切片介绍、预处理、DeepLabv3+模型、论文串烧（Nature Medicine等）"}
+      ]
+    },
+
+    {
+      "_comment": "===== data 目录：自动发现 65+ 门课程 =====",
+      "auto_discover": true,
+      "source": "data"
+    },
+
+    {
+      "_comment": "===== temp_media 目录：自动发现 14 门课程 =====",
+      "auto_discover": true,
+      "source": "temp_media"
+    },
+    {
+      "_comment": "===== 船说系列课程：自动发现 17 门课程 =====",
+      "auto_discover": true,
+      "source": "E:\\船说系列课程"
+    }
+  ]
+}

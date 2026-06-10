@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智联学习云 - 精品课程平台</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --primary:#4f46e5;--primary-light:#818cf8;--primary-dark:#3730a3;
+    --accent:#f59e0b;--success:#22c55e;
+    --bg:#0f172a;--bg2:#1e293b;--bg3:#334155;--hover:#475569;
+    --text:#f1f5f9;--text2:#94a3b8;--text3:#64748b;
+    --radius:12px;--shadow:0 4px 20px rgba(0,0,0,.4);
+    --border:#334155;
+  }
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+  a{color:var(--primary-light);text-decoration:none}
+
+  /* Nav */
+  .topnav{
+    background:linear-gradient(135deg,var(--primary-dark),var(--primary));
+    padding:0 32px;height:56px;display:flex;align-items:center;
+    justify-content:space-between;box-shadow:0 2px 12px rgba(79,70,229,.3);
+    position:sticky;top:0;z-index:200;
+  }
+  .topnav .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px}
+  .topnav .brand span{color:var(--accent)}
+  .topnav .brand small{font-weight:400;font-size:13px;color:#c7d2fe}
+  .topnav .info{font-size:13px;color:#c7d2fe;display:flex;gap:16px}
+  .topnav .info b{color:#fff}
+
+  /* Hero */
+  .hero{
+    background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);
+    padding:60px 32px 48px;text-align:center;
+  }
+  .hero h1{font-size:36px;font-weight:800;margin-bottom:8px}
+  .hero h1 .hl{color:var(--accent)}
+  .hero p{color:var(--text2);font-size:16px;max-width:560px;margin:0 auto 24px;line-height:1.6}
+  .hero .stats{display:flex;justify-content:center;gap:40px;margin-top:16px}
+  .hero .stats .st{text-align:center}
+  .hero .stats .st .num{font-size:32px;font-weight:800;color:var(--primary-light)}
+  .hero .stats .st .lbl{font-size:13px;color:var(--text3);margin-top:2px}
+
+  /* Container */
+  .container{max-width:1000px;margin:0 auto;padding:40px 24px 80px}
+  .section-title{font-size:22px;font-weight:700;margin-bottom:24px;display:flex;align-items:center;gap:8px}
+
+  /* Series Cards — large, single-column */
+  .series-list{display:flex;flex-direction:column;gap:24px}
+
+  .series-card{
+    background:var(--bg2);border:1px solid var(--border);
+    border-radius:var(--radius);overflow:hidden;cursor:pointer;
+    transition:all .25s;display:flex;
+  }
+  .series-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 8px 30px rgba(79,70,229,.25);
+    border-color:var(--primary-light);
+  }
+  .series-banner{
+    width:180px;min-width:180px;display:flex;align-items:center;justify-content:center;
+    font-size:64px;
+  }
+  .series-banner.b1{background:linear-gradient(135deg,#1e3a5f,#2563eb)}
+  .series-banner.b2{background:linear-gradient(135deg,#1a3d2f,#059669)}
+  .series-banner.b3{background:linear-gradient(135deg,#3b1f5e,#7c3aed)}
+  .series-banner.b4{background:linear-gradient(135deg,#5f1a2e,#e11d48)}
+  .series-body{padding:28px;flex:1;display:flex;flex-direction:column;justify-content:center}
+  .series-body h3{font-size:22px;font-weight:700;margin-bottom:4px}
+  .series-body .sub{font-size:14px;color:var(--accent);margin-bottom:10px}
+  .series-body .desc{font-size:14px;color:var(--text2);line-height:1.7;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  }
+  .series-footer{
+    display:flex;gap:20px;margin-top:14px;font-size:13px;color:var(--text3);
+  }
+  .series-footer span{display:flex;align-items:center;gap:5px}
+
+  /* Footer */
+  .footer{text-align:center;padding:24px;color:var(--text3);font-size:12px;border-top:1px solid var(--border)}
+
+  /* Responsive */
+  @media(max-width:768px){
+    .topnav{padding:0 16px}.topnav .brand small{display:none}
+    .hero{padding:40px 20px 32px}.hero h1{font-size:26px}
+    .hero .stats{gap:24px}.hero .stats .st .num{font-size:24px}
+    .series-card{flex-direction:column}.series-banner{width:100%;height:120px}
+    .container{padding:24px 16px 60px}
+  }
+
+  .spinner{display:flex;justify-content:center;padding:60px}
+  .spinner::after{content:"";width:36px;height:36px;border:3px solid var(--bg3);border-top-color:var(--primary-light);border-radius:50%;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(1turn)}}
+  .error-msg{text-align:center;padding:60px;color:#f87171}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="brand">
+    <span>智联学习云</span>
+    <small>· 精品课程平台</small>
+  </div>
+  <div class="info">
+    <span id="navUser"></span>
+    <span>📚 <b id="totalSeries">-</b> 个系列</span>
+    <span>📹 <b id="totalVideos">-</b> 个视频</span>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1><span class="hl">10大系列</span> · <span class="hl">100门课程</span></h1>
+  <p>从AI深度学习到Java企业级架构，从Python爬虫到Web全栈，从C语言系统编程到数据科学分析——22,000+教学视频，完整技术学习平台。</p>
+  <div class="stats">
+    <div class="st"><div class="num" id="heroSeries">-</div><div class="lbl">学习系列</div></div>
+    <div class="st"><div class="num" id="heroCourses">-</div><div class="lbl">精品课程</div></div>
+    <div class="st"><div class="num" id="heroVideos">-</div><div class="lbl">教学视频</div></div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="section-title">📋 全部学习系列</div>
+  <div class="series-list" id="seriesList">
+    <div class="spinner"></div>
+  </div>
+</div>
+
+<footer class="footer">智联学习云 © 2026 · 学无止境<br><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener" style="color:var(--text3);text-decoration:none;font-size:11px">浙ICP备2022030063号-1</a></footer>
+
+<script src="auth.js"></script>
+<script>
+const banners = ['b1','b2','b3','b4'];
+
+document.addEventListener('DOMContentLoaded', () => {
+  Auth.renderUserArea('navUser');
+  loadSeries();
+});
+
+async function loadSeries() {
+  try {
+    const res = await fetch('/api/series');
+    const seriesList = await res.json();
+    renderStats(seriesList);
+    renderSeries(seriesList);
+  } catch(e) {
+    document.getElementById('seriesList').innerHTML =
+      `<div class="error-msg">❌ 加载失败<br><small>${e.message}</small></div>`;
+  }
+}
+
+function renderStats(seriesList) {
+  const totalCourses = seriesList.reduce((s, x) => s + x.total_courses, 0);
+  const totalVids    = seriesList.reduce((s, x) => s + x.total_videos, 0);
+  document.getElementById('totalSeries').textContent = seriesList.length;
+  document.getElementById('totalVideos').textContent = totalVids;
+  document.getElementById('heroSeries').textContent  = seriesList.length;
+  document.getElementById('heroCourses').textContent = totalCourses;
+  document.getElementById('heroVideos').textContent  = totalVids;
+}
+
+function renderSeries(seriesList) {
+  let html = '';
+  seriesList.forEach((s, i) => {
+    html += `
+    <div class="series-card" onclick="location.href='series.html?id=${s.id}'">
+      <div class="series-banner ${s.banner || banners[i % banners.length]}">
+        ${s.icon || '📚'}
+      </div>
+      <div class="series-body">
+        <h3>${s.title}</h3>
+        <div class="sub">${s.subtitle}</div>
+        <div class="desc">${s.description}</div>
+        <div class="series-footer">
+          <span>📂 ${s.total_courses} 门课程</span>
+          <span>📹 ${s.total_videos} 个视频</span>
+        </div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('seriesList').innerHTML = html;
+}
+</script>
+</body>
+</html>
