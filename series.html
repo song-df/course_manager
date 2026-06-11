@@ -116,6 +116,17 @@
 
 <div id="seriesHeader"></div>
 
+<div id="wikiResources" style="display:none;max-width:1200px;margin:20px auto 0;padding:0 24px">
+  <div style="background:linear-gradient(135deg,#1a2a1a,#0f3460);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-bottom:24px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+      <span style="font-size:24px">📖</span>
+      <span style="font-size:18px;font-weight:700">船说系列课程资料</span>
+      <span style="font-size:12px;color:var(--text3)">—— 配套文档、代码、学习指南</span>
+    </div>
+    <div id="wikiLinks" style="display:flex;flex-wrap:wrap;gap:10px"></div>
+  </div>
+</div>
+
 <div class="container">
   <div class="section-title">📋 系列课程</div>
   <div class="grid" id="courseGrid">
@@ -150,6 +161,9 @@ async function loadSeries() {
     document.title = `${series.title} - 智联学习云`;
     renderHeader(series);
     renderCards(series.courses, seriesId, series.title);
+
+    // 船说系列：加载 Wiki 资源
+    if (seriesId === 'chuanshuo') loadWikiResources();
   } catch(e) {
     document.getElementById('courseGrid').innerHTML =
       `<div class="error-msg">❌ 加载失败<br><small>${e.message}</small></div>`;
@@ -195,6 +209,32 @@ function renderCards(courses, seriesId, seriesTitle) {
     </div>`;
   });
   document.getElementById('courseGrid').innerHTML = html;
+}
+
+async function loadWikiResources() {
+  const el = document.getElementById('wikiResources');
+  const list = document.getElementById('wikiLinks');
+  try {
+    const resources = [
+      { name: 'C语言全能实战', path: 'c_language/home.md', icon: '🔧' },
+      { name: 'Dev-C++ 使用指南', path: 'c_language/devcpp_usage.md', icon: '🛠' },
+      { name: '算法与数据结构', path: 'datastruct/datastruct.md', icon: '⛓️' },
+      { name: '计算机基础', path: 'computer_base/computer_base.md', icon: '💻' },
+      { name: 'C++零基础到高级', path: 'cpp_language/home.md', icon: '⚔️' },
+      { name: '算法竞赛通关班', path: 'csp/home.md', icon: '🏆' },
+      { name: 'C++高性能服务器', path: 'cpp_project_server/home.md', icon: '🚀' },
+      { name: 'AI大模型入门', path: 'ai_mllm_aigc/home.md', icon: '🤖' },
+      { name: 'Linux系统编程实战', path: 'linux_program/home.md', icon: '🪄' },
+      { name: 'Linux命令速查', path: 'linux_program/linux_commands.md', icon: '📋' },
+      { name: 'C++高薪就业', path: 'cpp_high_salary/home.md', icon: '🧙' },
+      { name: '海贼学习指南', path: 'haizeix_guide/home.md', icon: '📚' },
+    ];
+    list.innerHTML = resources.map(r => {
+      const url = 'wiki.html?page=courses_resource/' + r.path;
+      return '<a href="' + url + '" target="_blank" style="background:var(--bg3);color:var(--text);padding:8px 14px;border-radius:8px;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:all .2s" onmouseover="this.style.background=\'var(--primary)\'" onmouseout="this.style.background=\'var(--bg3)\'">' + r.icon + ' ' + r.name + '</a>';
+    }).join('');
+    el.style.display = 'block';
+  } catch(e) { console.log('Wiki load fail:', e); }
 }
 </script>
 </body>

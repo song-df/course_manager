@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>课程资料 - 智联学习云</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --primary:#4f46e5;--primary-light:#818cf8;--primary-dark:#3730a3;
+    --accent:#f59e0b;--bg:#0f172a;--bg2:#1e293b;--bg3:#334155;
+    --text:#f1f5f9;--text2:#94a3b8;--text3:#64748b;--border:#334155;
+    --radius:8px;
+  }
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Noto Sans SC',sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;
+  }
+
+  /* Top bar */
+  .topbar{
+    background:linear-gradient(135deg,var(--primary-dark),var(--primary));
+    padding:0 24px;height:48px;display:flex;align-items:center;gap:16px;
+    position:sticky;top:0;z-index:100;
+  }
+  .topbar a{color:#fff;text-decoration:none;font-size:14px}
+  .topbar .sep{color:#a5b4fc;font-size:12px}
+
+  /* Layout: sidebar + content */
+  .layout{display:flex;min-height:calc(100vh - 48px)}
+  .sidebar{
+    width:260px;min-width:260px;background:var(--bg2);border-right:1px solid var(--border);
+    overflow-y:auto;padding:16px 0;
+  }
+  .sidebar-title{
+    font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;
+    padding:8px 20px;letter-spacing:1px;
+  }
+  .sidebar a{
+    display:block;padding:9px 20px;font-size:13px;color:var(--text2);text-decoration:none;
+    border-left:3px solid transparent;transition:all .15s;
+  }
+  .sidebar a:hover,.sidebar a.active{color:#fff;background:rgba(79,70,229,.15);border-left-color:var(--primary-light)}
+
+  /* Content area — wiki.js style */
+  .content{flex:1;padding:32px 48px;max-width:900px;overflow-y:auto}
+  .content h1{font-size:28px;font-weight:800;margin-bottom:8px;padding-bottom:12px;border-bottom:2px solid var(--border)}
+  .content h2{font-size:22px;font-weight:700;margin:32px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+  .content h3{font-size:18px;font-weight:700;margin:24px 0 8px}
+  .content h4{font-size:16px;font-weight:600;margin:20px 0 6px}
+  .content h5,.content h6{font-size:15px;font-weight:600;margin:16px 0 6px;color:var(--text2)}
+  .content p{line-height:1.8;margin-bottom:14px;font-size:15px;color:var(--text2)}
+  .content strong{color:var(--text)}
+  .content a.wiki-link{color:var(--primary-light);text-decoration:underline}
+  .content ul,.content ol{padding-left:24px;margin-bottom:16px}
+  .content li{line-height:1.7;margin-bottom:4px;font-size:14px;color:var(--text2);list-style-position:outside}
+  .content ul li{list-style-type:disc}
+  .content ol li{list-style-type:decimal}
+  .content blockquote{
+    border-left:4px solid var(--primary);background:rgba(79,70,229,.08);
+    padding:12px 18px;margin:16px 0;border-radius:0 var(--radius) var(--radius) 0;
+  }
+  .content blockquote p{font-size:14px;margin:0;color:var(--text3)}
+  .content hr{border:none;border-top:1px solid var(--border);margin:24px 0}
+  .content img.wiki-img{max-width:100%;border-radius:var(--radius);margin:12px 0;border:1px solid var(--border)}
+
+  /* Code */
+  .content .code-block{
+    background:#0d1117;border:1px solid var(--border);border-radius:var(--radius);
+    padding:16px 20px;overflow-x:auto;margin:16px 0;font-size:13px;line-height:1.6;
+    font-family:'Fira Code','Consolas',monospace;
+  }
+  .content .code-block code{color:#c9d1d9}
+  .content .inline-code{
+    background:var(--bg3);padding:2px 6px;border-radius:4px;font-size:13px;
+    font-family:'Fira Code','Consolas',monospace;color:var(--accent);
+  }
+
+  /* Tables */
+  .content table.wiki-table{
+    width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;
+  }
+  .content table.wiki-table th{
+    background:var(--bg3);padding:10px 14px;text-align:left;font-weight:600;
+    border:1px solid var(--border);color:var(--text);
+  }
+  .content table.wiki-table td{
+    padding:8px 14px;border:1px solid var(--border);color:var(--text2);
+  }
+
+  /* Wiki.js callout boxes */
+  .content .is-success{background:rgba(34,197,94,.08);border-left:4px solid #22c55e;padding:12px 18px;border-radius:0 var(--radius) var(--radius) 0;margin:16px 0}
+  .content .is-success p,.content .is-success li{color:#bbf7d0}
+  .content .is-info{background:rgba(59,130,246,.08);border-left:4px solid #3b82f6;padding:12px 18px;border-radius:0 var(--radius) var(--radius) 0;margin:16px 0}
+  .content .is-info p,.content .is-info li{color:#bfdbfe}
+  .content .is-warning{background:rgba(245,158,11,.08);border-left:4px solid #f59e0b;padding:12px 18px;border-radius:0 var(--radius) var(--radius) 0;margin:16px 0}
+  .content .is-warning p,.content .is-warning li{color:#fde68a}
+  .content .is-danger{background:rgba(239,68,68,.08);border-left:4px solid #ef4444;padding:12px 18px;border-radius:0 var(--radius) var(--radius) 0;margin:16px 0}
+  .content .is-danger p,.content .is-danger li{color:#fecaca}
+  /* Grid list */
+  .content ul.grid-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;padding-left:0;list-style:none}
+  .content ul.grid-list li{background:var(--bg3);padding:10px 14px;border-radius:var(--radius);list-style-type:none}
+
+  /* Loading */
+  .loading{text-align:center;padding:80px 20px;color:var(--text3)}
+  .loading::after{content:'';display:block;width:32px;height:32px;margin:16px auto 0;border:3px solid var(--bg3);border-top-color:var(--primary-light);border-radius:50%;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(1turn)}}
+
+  /* Responsive */
+  @media(max-width:768px){
+    .sidebar{display:none}
+    .content{padding:20px 16px}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="series.html?id=chuanshuo">← 返回船说系列</a>
+  <span class="sep">/</span>
+  <a href="/">智联学习云</a>
+  <span class="sep">/</span>
+  <span style="color:#c7d2fe;font-size:14px" id="breadcrumb">课程资料</span>
+</div>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content" id="content">
+    <div class="loading">加载中</div>
+  </main>
+</div>
+
+<script src="wiki_render.js"></script>
+<script>
+async function init() {
+  const params = new URLSearchParams(location.search);
+  let page = params.get('page');
+
+  // 渲染侧边栏
+  const sidebar = document.getElementById('sidebar');
+  sidebar.innerHTML = '<div class="sidebar-title">📖 课程资料</div>' +
+    Wiki.FILE_LIST.map(f => {
+      const active = f.file === page ? ' class="active"' : '';
+      return '<a href="?page=' + f.file + '"' + active + '>' + f.name + '</a>';
+    }).join('');
+
+  if (!page) {
+    page = Wiki.FILE_LIST[0].file;
+    history.replaceState(null, '', '?page=' + page);
+  }
+
+  // 加载并渲染
+  try {
+    const res = await fetch('/wiki_resources/' + page);
+    if (!res.ok) throw new Error('404');
+    const md = await res.text();
+    const html = Wiki.parse(md);
+    document.getElementById('content').innerHTML = html;
+
+    // 面包屑
+    const info = Wiki.FILE_LIST.find(f => f.file === page);
+    document.getElementById('breadcrumb').textContent = info ? info.name : page;
+    document.title = (info ? info.name : '课程资料') + ' - 智联学习云';
+  } catch(e) {
+    document.getElementById('content').innerHTML =
+      '<div style="text-align:center;padding:80px 20px;color:#f87171"><p>❌ 文档加载失败</p><p style="font-size:13px;color:var(--text3)">' + e.message + '</p></div>';
+  }
+}
+
+init();
+</script>
+</body>
+</html>
