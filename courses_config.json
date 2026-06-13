@@ -68,6 +68,17 @@
     },
 
     {
+      "_comment": "===== 智能体全面应用指南 =====",
+      "id": "agent-guide-videos",
+      "title": "智能体全面应用指南",
+      "subtitle": "AI 编程工具、智能体接入与实战",
+      "description": "面向开发者的智能体（Agent）全面应用指南，涵盖 Codex CLI、Claude Code 等 AI 编程工具的安装配置、接入原理与实战操作。配套视频持续更新中。",
+      "source": "E:\\AI_Agent_学习",
+      "chapters": [],
+      "wiki_doc": "agent_guide/codex_install.md"
+    },
+
+    {
       "_comment": "===== data 目录：自动发现 65+ 门课程 =====",
       "auto_discover": true,
       "source": "data"

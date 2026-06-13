@@ -119,6 +119,38 @@
 
   /* ===== Scrollbar ===== */
   .sidebar-body::-webkit-scrollbar,.info-area::-webkit-scrollbar{width:6px}
+
+  /* ===== Wiki Resource Content ===== */
+  .resource-content h1{font-size:22px;font-weight:800;margin-bottom:8px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+  .resource-content h2{font-size:18px;font-weight:700;margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+  .resource-content h3{font-size:16px;font-weight:700;margin:20px 0 8px}
+  .resource-content h4{font-size:15px;font-weight:600;margin:16px 0 6px}
+  .resource-content h5,.resource-content h6{font-size:14px;font-weight:600;margin:14px 0 4px;color:var(--text2)}
+  .resource-content p{line-height:1.8;margin-bottom:12px;font-size:14px;color:var(--text2)}
+  .resource-content strong{color:var(--text)}
+  .resource-content a{color:var(--primary-light);text-decoration:underline}
+  .resource-content ul,.resource-content ol{padding-left:20px;margin-bottom:14px}
+  .resource-content li{line-height:1.7;margin-bottom:3px;font-size:14px;color:var(--text2)}
+  .resource-content blockquote{border-left:4px solid var(--primary);background:rgba(79,70,229,.08);padding:10px 16px;margin:14px 0;border-radius:0 var(--radius) var(--radius) 0}
+  .resource-content blockquote p{font-size:13px;margin:0;color:var(--text3)}
+  .resource-content hr{border:none;border-top:1px solid var(--border);margin:20px 0}
+  .resource-content .code-block{background:#0d1117;border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;overflow-x:auto;margin:14px 0;font-size:13px;line-height:1.6;font-family:'Fira Code',Consolas,monospace}
+  .resource-content .code-block code{color:#c9d1d9}
+  .resource-content .inline-code{background:var(--bg3);padding:2px 6px;border-radius:4px;font-size:13px;font-family:'Fira Code',Consolas,monospace;color:var(--accent)}
+  .resource-content table.wiki-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px}
+  .resource-content table.wiki-table th{background:var(--bg3);padding:8px 12px;text-align:left;font-weight:600;border:1px solid var(--border);color:var(--text)}
+  .resource-content table.wiki-table td{padding:6px 12px;border:1px solid var(--border);color:var(--text2)}
+  .resource-content .is-success{background:rgba(34,197,94,.08);border-left:4px solid #22c55e;padding:10px 16px;border-radius:0 var(--radius) var(--radius) 0;margin:14px 0}
+  .resource-content .is-success p,.resource-content .is-success li{color:#bbf7d0}
+  .resource-content .is-info{background:rgba(59,130,246,.08);border-left:4px solid #3b82f6;padding:10px 16px;border-radius:0 var(--radius) var(--radius) 0;margin:14px 0}
+  .resource-content .is-info p,.resource-content .is-info li{color:#bfdbfe}
+  .resource-content .is-warning{background:rgba(245,158,11,.08);border-left:4px solid #f59e0b;padding:10px 16px;border-radius:0 var(--radius) var(--radius) 0;margin:14px 0}
+  .resource-content .is-warning p,.resource-content .is-warning li{color:#fde68a}
+  .resource-content .is-danger{background:rgba(239,68,68,.08);border-left:4px solid #ef4444;padding:10px 16px;border-radius:0 var(--radius) var(--radius) 0;margin:14px 0}
+  .resource-content .is-danger p,.resource-content .is-danger li{color:#fecaca}
+  .resource-content ul.grid-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;padding-left:0;list-style:none}
+  .resource-content ul.grid-list li{background:var(--bg3);padding:8px 12px;border-radius:var(--radius);list-style-type:none}
+  .resource-content img.wiki-img{max-width:100%;border-radius:var(--radius);margin:12px 0;border:1px solid var(--border)}
   .sidebar-body::-webkit-scrollbar-track,.info-area::-webkit-scrollbar-track{background:transparent}
   .sidebar-body::-webkit-scrollbar-thumb,.info-area::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px}
 
@@ -193,6 +225,7 @@
 </footer>
 
 <script src="auth.js"></script>
+<script src="wiki_render.js"></script>
 <script>
 // ======================== State ========================
 let courses = [];
@@ -383,7 +416,9 @@ function renderCourseInfo(course) {
       <h4>📋 课程大纲</h4>
       <p>${course.chapters.map((ch,i) => `${i+1}. ${ch.title}（${ch.count}讲）`).join(' · ')}</p>
     </div>
+    <div id="wikiDocArea"></div>
   `;
+  loadWikiDoc(course);
 }
 
 // ======================== Render Video Info ========================
@@ -392,7 +427,31 @@ function renderVideoInfo(name, chapter) {
     <div class="video-title">${name}</div>
     <div class="video-meta">📂 ${chapter} · ${currentCourse?.title || ''}</div>
     <div class="video-desc">正在播放该视频，您可以通过右侧目录切换到其他章节和视频。</div>
+    <div id="wikiDocArea"></div>
   `;
+  if (currentCourse) loadWikiDoc(currentCourse);
+}
+
+// ======================== Load Wiki Doc ========================
+async function loadWikiDoc(course) {
+  const area = document.getElementById('wikiDocArea');
+  if (!area) return;
+  if (!course.wiki_doc) return;
+
+  area.innerHTML = '<div style="text-align:center;padding:24px 0;color:var(--text3);font-size:13px">⏳ 正在加载配套教材...</div>';
+  try {
+    const res = await fetch('/wiki_resources/' + course.wiki_doc);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const md = await res.text();
+    const parsedHtml = Wiki.parse(md);
+    area.innerHTML = `
+      <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border)">
+        <h4 style="font-size:14px;color:var(--text3);margin-bottom:14px">📖 配套教材</h4>
+        <div class="resource-content">${parsedHtml}</div>
+      </div>`;
+  } catch(e) {
+    area.innerHTML = `<div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border)"><p style="color:#f87171;font-size:13px">❌ 配套教材加载失败: ${e.message}</p></div>`;
+  }
 }
 
 // ======================== Watched State (localStorage) ========================

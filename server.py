@@ -91,6 +91,7 @@ class CourseHandler(SimpleHTTPRequestHandler):
                                     populated.append(c)
                                     break
                         target['courses'] = populated
+                        # articles 字段原样透传（文章型内容）
                         self.wfile.write(json.dumps(target, ensure_ascii=False).encode('utf-8'))
                     else:
                         self.wfile.write(json.dumps({"error": "series not found"}, ensure_ascii=False).encode('utf-8'))
@@ -107,9 +108,12 @@ class CourseHandler(SimpleHTTPRequestHandler):
                                     course_list.append(c)
                                     total_videos += c.get('total_videos', 0)
                                     break
-                        item['total_courses'] = len(course_list)
+                        # articles（文章型内容）也计入课程数
+                        article_count = len(s.get('articles', []))
+                        item['total_courses'] = len(course_list) + article_count
                         item['total_videos'] = total_videos
-                        del item['courses']
+                        if 'courses' in item:
+                            del item['courses']
                         result.append(item)
                     self.wfile.write(json.dumps(result, ensure_ascii=False).encode('utf-8'))
             except Exception as e:

@@ -106,6 +106,7 @@ def build_course_from_dir(course_cfg, source_dir):
         "title": course_cfg["title"],
         "subtitle": course_cfg.get("subtitle", ""),
         "description": course_cfg.get("description", ""),
+        "wiki_doc": course_cfg.get("wiki_doc", ""),
         "chapters": [],
         "total_videos": 0
     }
@@ -206,6 +207,7 @@ def build_course(course_cfg, base_dir):
         "title": course_cfg["title"],
         "subtitle": course_cfg.get("subtitle", ""),
         "description": course_cfg.get("description", ""),
+        "wiki_doc": course_cfg.get("wiki_doc", ""),
         "chapters": [],
         "total_videos": 0
     }

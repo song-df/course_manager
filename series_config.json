@@ -1,6 +1,23 @@
 {
   "series": [
     {
+      "id": "agent-guide",
+      "title": "智能体全面应用指南",
+      "subtitle": "AI 编程工具、智能体接入与实战 —— 配套视频课程持续更新中",
+      "description": "面向开发者的智能体（Agent）全面应用指南，涵盖 Codex CLI、Claude Code 等 AI 编程工具的接入原理、协议解析与实战配置。从图文教程起步，后续配套同名视频课程系统讲解。",
+      "icon": "🦾",
+      "banner": "b3",
+      "courses": ["agent-guide-videos"],
+      "articles": [
+        {
+          "title": "为什么 Codex CLI 接不了大多数 AI 网关？协议层深度解析",
+          "subtitle": "Codex / Moonbridge / Claude Code 接入原理",
+          "doc": "agent_guide/codex_gateway.md",
+          "icon": "🔌"
+        }
+      ]
+    },
+    {
       "id": "zero-to-ai",
       "title": "从零基础到AI专家",
       "subtitle": "数学基础 → Python编程 → 深度学习 → 计算机视觉 → 生成对抗网络 → 工程部署",
