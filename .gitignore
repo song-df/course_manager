@@ -1,6 +1,6 @@
-# Data files (large)
-course_data.json
+# Data files (large) — course_data.json IS tracked (critical backup)
 course_data.backup.json
+backups/
 hash_name_map.json
 *.db
 

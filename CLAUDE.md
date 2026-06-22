@@ -45,3 +45,39 @@ python server.py --port 8080
 - 添加新课：视频放入目录 → 编辑 `courses_config.json` → 运行 `generate_course_data.py` → 更新 `series_config.json` → 重启server.py
 - 云主机SSH：`ssh -p 22022 -i D:/workspace/ssh_key/js_server_key.pem root@47.100.102.229`
 - 认证后端重启：`fuser -k 8001/tcp && cd /www/wwwroot/ai.aiotedu.cc/api && nohup uvicorn main:app --host 127.0.0.1 --port 8001 &`
+
+## 环境运行备忘
+
+### 服务分布（谁在哪里跑）
+| 组件 | 主机 | 说明 |
+|------|------|------|
+| **server.py** | 本地 WSL | 课程API + 视频流，需要访问 E: 盘视频文件 |
+| **frpc** | 本地 WSL | 隧道客户端，连云 frps:7000，代理 :8080→:6005 |
+| **frps** | 云主机 | 隧道服务端，接收 frpc 连接，暴露 :6005 |
+| **Nginx** | 云主机 | 反向代理 aiotedu.cc → :6005 |
+| **认证后端** | 云主机 | FastAPI :8001 |
+
+### 启动顺序（本地 WSL）
+```bash
+# 1. 确认 frpc 在运行（通常已自启）
+ps aux | grep frpc | grep -v grep
+
+# 2. 启动 server.py
+cd /mnt/d/workspace/course_resource
+nohup python3 server.py --port 8080 > /tmp/server_8080.log 2>&1 &
+
+# 3. 健康检查
+curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8080/api/courses  # 期望 200
+```
+
+### 故障速查
+| 症状 | 原因 | 检查命令 |
+|------|------|----------|
+| 页面空白/无课程 | `/api/courses` 返回 `[]` | `curl -s https://aiotedu.cc/api/courses \| head -c 200` |
+| 有课程但视频 404 | WSL server.py 未运行 或 frpc 隧道断裂 | `ps aux \| grep server.py` (WSL) |
+| 视频 404 但 API 正常 | `course_data.json` 被清空 | `wc -c /mnt/d/workspace/course_resource/course_data.json` (应为 ~7MB) |
+
+### ⚠️ 禁止事项
+- **不要在云主机启动 server.py** — 云主机无 E: 盘，视频全部 404
+- **不要在云主机启动 frpc** — 会造成隧道冲突，本地 frpc 无法注册同名代理
+- **不要直接编辑云主机的 course_data.json** — 数据源在本地，应从本地上传

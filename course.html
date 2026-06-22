@@ -302,26 +302,47 @@ function switchCourse(courseId) {
 // ======================== Render Sidebar ========================
 function renderSidebar(course) {
   let html = '';
+  const singleChapter = course.chapters.length === 1;
+
   course.chapters.forEach((ch, ci) => {
-    html += `<div class="chapter open" data-chapter="${ch.id}">`;
-    html += `<div class="chapter-header" onclick="toggleChapter(this.parentElement)">`;
-    html += `<span class="arrow">▶</span>`;
-    html += `<span class="num">${ci+1}</span>`;
-    html += `<div class="ct"><div class="ct-title">${ch.title}</div><div class="ct-count">${ch.count} 讲</div></div>`;
-    html += `</div>`;
-    html += `<div class="chapter-body"><div class="video-list">`;
-    ch.videos.forEach((v, vi) => {
-      const isActive = currentVideo && currentVideo.file === v.file;
-      const statusClass = isActive ? 'playing' : (getWatched(v.file) ? 'watched' : 'idle');
-      const statusIcon = isActive ? '►' : (getWatched(v.file) ? '✓' : '');
-      html += `<div class="video-item${isActive ? ' active' : ''}" data-file="${escapeAttr(v.file)}" data-name="${escapeAttr(v.name)}" data-chapter="${escapeAttr(ch.title)}" onclick="playVideo(this)">`;
-      html += `<span class="vi">${vi+1}</span>`;
-      html += `<span class="vname">${v.name}</span>`;
-      html += `<span class="vsize">${v.size_str}</span>`;
-      html += `<span class="vstatus ${statusClass}">${statusIcon}</span>`;
+    if (singleChapter) {
+      // 单章节课程：直接平铺视频，不显示章节折叠菜单
+      html += `<div style="padding:8px 14px;font-size:13px;font-weight:600;color:var(--text2);border-bottom:1px solid var(--border);margin:0 8px 8px">${course.title}</div>`;
+      html += `<div class="video-list">`;
+      ch.videos.forEach((v, vi) => {
+        const isActive = currentVideo && currentVideo.file === v.file;
+        const statusClass = isActive ? 'playing' : (getWatched(v.file) ? 'watched' : 'idle');
+        const statusIcon = isActive ? '►' : (getWatched(v.file) ? '✓' : '');
+        html += `<div class="video-item${isActive ? ' active' : ''}" data-file="${escapeAttr(v.file)}" data-name="${escapeAttr(v.name)}" data-chapter="${escapeAttr(ch.title)}" onclick="playVideo(this)">`;
+        html += `<span class="vi">${vi+1}</span>`;
+        html += `<span class="vname">${v.name}</span>`;
+        html += `<span class="vsize">${v.size_str}</span>`;
+        html += `<span class="vstatus ${statusClass}">${statusIcon}</span>`;
+        html += `</div>`;
+      });
       html += `</div>`;
-    });
-    html += `</div></div></div>`;
+    } else {
+      // 多章节课程：保留折叠菜单
+      html += `<div class="chapter open" data-chapter="${escapeAttr(ch.id)}">`;
+      html += `<div class="chapter-header" onclick="toggleChapter(this.parentElement)">`;
+      html += `<span class="arrow">▶</span>`;
+      html += `<span class="num">${ci+1}</span>`;
+      html += `<div class="ct"><div class="ct-title">${ch.title}</div><div class="ct-count">${ch.count} 讲</div></div>`;
+      html += `</div>`;
+      html += `<div class="chapter-body"><div class="video-list">`;
+      ch.videos.forEach((v, vi) => {
+        const isActive = currentVideo && currentVideo.file === v.file;
+        const statusClass = isActive ? 'playing' : (getWatched(v.file) ? 'watched' : 'idle');
+        const statusIcon = isActive ? '►' : (getWatched(v.file) ? '✓' : '');
+        html += `<div class="video-item${isActive ? ' active' : ''}" data-file="${escapeAttr(v.file)}" data-name="${escapeAttr(v.name)}" data-chapter="${escapeAttr(ch.title)}" onclick="playVideo(this)">`;
+        html += `<span class="vi">${vi+1}</span>`;
+        html += `<span class="vname">${v.name}</span>`;
+        html += `<span class="vsize">${v.size_str}</span>`;
+        html += `<span class="vstatus ${statusClass}">${statusIcon}</span>`;
+        html += `</div>`;
+      });
+      html += `</div></div></div>`;
+    }
   });
   sidebarBody.innerHTML = html;
 }

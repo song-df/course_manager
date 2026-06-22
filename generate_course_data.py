@@ -15,6 +15,8 @@ Course Data Generator — 配置驱动的课程数据生成器
 
 import os
 import json
+import shutil
+from datetime import datetime
 
 CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'courses_config.json')
 OUTPUT      = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'course_data.json')
@@ -272,6 +274,15 @@ def build_course(course_cfg, base_dir):
 
 
 def main():
+    # ---- 自动备份现有数据 ----
+    if os.path.exists(OUTPUT):
+        backup_dir = os.path.join(os.path.dirname(OUTPUT), 'backups')
+        os.makedirs(backup_dir, exist_ok=True)
+        ts = datetime.now().strftime('%Y%m%d_%H%M%S')
+        backup_path = os.path.join(backup_dir, f'course_data_{ts}.json')
+        shutil.copy2(OUTPUT, backup_path)
+        print(f"[备份] {OUTPUT} -> {backup_path}")
+
     config = load_config()
     base_dir = config["base_dir"]
 
