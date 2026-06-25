@@ -205,6 +205,7 @@ def main():
 
     mimetypes.add_type('video/mp4', '.mp4')
     mimetypes.add_type('video/mp4', '.m4v')
+    mimetypes.add_type('video/quicktime', '.mov')
 
     server = HTTPServer(('0.0.0.0', port), CourseHandler)
 

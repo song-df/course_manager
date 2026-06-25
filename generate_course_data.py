@@ -35,7 +35,7 @@ def scan_chapter(path):
     for f in sorted(os.listdir(path)):
         if f.startswith('._'):
             continue
-        if f.endswith(('.mp4', '.m4v')):
+        if f.endswith(('.mp4', '.m4v', '.mov')):
             full = os.path.join(path, f)
             try:
                 size = os.path.getsize(full)
