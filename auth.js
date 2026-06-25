@@ -23,22 +23,36 @@ const Auth = {
   },
 
   async login(username, password) {
-    const data = await this._fetch('/auth/login', {
+    const res = await fetch(this.AUTH_BASE + '/auth/login', {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
     });
+    const data = await res.json().catch(() => ({}));
     if (data.access_token) {
       localStorage.setItem('zl_token', data.access_token);
       localStorage.setItem('zl_user', JSON.stringify(data.user));
       return { success: true, user: data.user };
     }
-    return { success: false, error: data.detail || '登录失败' };
+    return { success: false, error: (data && data.detail) || '登录失败' };
   },
 
-  async register(username, password, inviteCode) {
+  async register(username, email, password, inviteCode) {
+    // 1. 验证邀请码
+    const verifyRes = await fetch(this.AUTH_BASE + '/redeem/external/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ system_secret: 'd04325db8e57094cf9d57b3127135f8a2ad28acb82f10f6b8926375e2d215a4a', code: inviteCode }),
+    });
+    if (verifyRes.status !== 200) {
+      const err = await verifyRes.json().catch(() => ({}));
+      return { success: false, error: err.detail || '邀请码无效' };
+    }
+
+    // 2. 注册到 wiselink
     const data = await this._fetch('/public/register', {
       method: 'POST',
-      body: JSON.stringify({ username, password, invite_code: inviteCode }),
+      body: JSON.stringify({ username, email, password, referral_code: inviteCode }),
     });
     if (data.id) {
       return this.login(username, password);
@@ -84,7 +98,8 @@ const Auth = {
   },
 
   _renderOverlay() {
-    if (document.getElementById('zl-auth-overlay')) return;
+    const old = document.getElementById('zl-auth-overlay');
+    if (old) { old.remove(); }
 
     const html = `
     <div id="zl-auth-overlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.75);z-index:9999;display:flex;align-items:center;justify-content:center">
@@ -105,9 +120,9 @@ const Auth = {
         <input id="zl-username" type="text" placeholder="用户名" style="width:100%;padding:10px 12px;border:1px solid var(--border,#334155);border-radius:8px;background:var(--bg3,#334155);color:var(--text,#f1f5f9);font-size:14px;margin-bottom:12px;outline:none;box-sizing:border-box">
         <input id="zl-password" type="password" placeholder="密码" style="width:100%;padding:10px 12px;border:1px solid var(--border,#334155);border-radius:8px;background:var(--bg3,#334155);color:var(--text,#f1f5f9);font-size:14px;margin-bottom:12px;outline:none;box-sizing:border-box" onkeydown="if(event.key==='Enter')Auth._submit()">
         <div id="zl-reg-extra" style="display:none">
+          <input id="zl-email" type="text" placeholder="邮箱（必填）" style="width:100%;padding:10px 12px;border:1px solid var(--border,#334155);border-radius:8px;background:var(--bg3,#334155);color:var(--text,#f1f5f9);font-size:14px;margin-bottom:8px;outline:none;box-sizing:border-box" onkeydown="if(event.key=='Enter')Auth._submit()">
           <input id="zl-invite-code" type="text" placeholder="邀请码（必填）" style="width:100%;padding:10px 12px;border:1px solid var(--border,#334155);border-radius:8px;background:var(--bg3,#334155);color:var(--text,#f1f5f9);font-size:14px;margin-bottom:8px;outline:none;box-sizing:border-box;text-transform:uppercase" onkeydown="if(event.key==='Enter')Auth._submit()">
-          <div style="text-align:right;margin-bottom:12px"><a href="https://ai.aiotedu.cc/course" target="_blank" style="color:var(--primary-light);font-size:12px;text-decoration:none">获取邀请码 →</a></div>
-          <div style="text-align:right;margin-top:-8px;margin-bottom:12px"><a href="https://ai.aiotedu.cc/course" target="_blank" style="color:var(--primary-light,#818cf8);font-size:12px;text-decoration:none">获取邀请码 →</a></div>
+          <div style="text-align:right;margin-bottom:12px"><a href="https://wiselink.cc/course" target="_blank" style="color:var(--primary-light);font-size:12px;text-decoration:none">获取邀请码 →</a></div>
           <input id="zl-password2" type="password" placeholder="确认密码" style="width:100%;padding:10px 12px;border:1px solid var(--border,#334155);border-radius:8px;background:var(--bg3,#334155);color:var(--text,#f1f5f9);font-size:14px;margin-bottom:16px;outline:none;box-sizing:border-box" onkeydown="if(event.key==='Enter')Auth._submit()">
         </div>
 
@@ -163,8 +178,11 @@ const Auth = {
       return;
     }
 
+    let inviteCode = '', email = '';
     if (this._mode === 'register') {
-      const inviteCode = document.getElementById('zl-invite-code').value.trim();
+      email = document.getElementById('zl-email').value.trim();
+      if (!email) { this._showMsg('请输入邮箱', 'error'); return; }
+      inviteCode = document.getElementById('zl-invite-code').value.trim();
       if (!inviteCode) { this._showMsg('请输入邀请码', 'error'); return; }
       const pwd2 = document.getElementById('zl-password2').value;
       if (password !== pwd2) { this._showMsg('两次密码不一致', 'error'); return; }
@@ -175,11 +193,12 @@ const Auth = {
     btn.disabled = true;
 
     const result = this._mode === 'register'
-      ? await this.register(username, password, inviteCode)
+      ? await this.register(username, email, password, inviteCode)
       : await this.login(username, password);
 
     if (result.success) {
       document.getElementById('zl-auth-overlay').remove();
+      this.renderUserArea('navUser');
       if (this._resolve) { this._resolve(true); this._resolve = null; }
     } else {
       this._showMsg(result.error || '操作失败', 'error');
